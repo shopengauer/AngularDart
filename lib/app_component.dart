@@ -15,8 +15,9 @@ import 'package:AngularDart/hello_dialog/hello_dialog.dart';
                <h2>Current word is {{word.englishWord}}</h2>
                <div>
                 Слово: <input [(ngModel)]="word.englishWord" placeholder="English word"/>
-                Перевод: <input value="{{rWord}}" placeholder="Русский перевод"/>
-                         <button (click)="addTranslateWord(rWord)">Добавить</button>
+                Перевод: <input #box (keyup.enter) = "addTranslateWord(box.value)" placeholder="Русский перевод"/>
+                         <button type="button" (click)="addTranslateWord(box.value)">Добавить</button>
+                         <button >Сохранить карточку</button>
                </div>
                <div>
                   <h3>List of translates words</h3>
@@ -27,15 +28,21 @@ import 'package:AngularDart/hello_dialog/hello_dialog.dart';
                   </ul>
                </div>
 
+
   ''',
-  directives: const [materialDirectives, HelloDialog],
+  directives: const [materialDirectives],
   providers: const [materialProviders],
 )
 class AppComponent {
   String title = 'English cards';
-  var word = new Word('emerge',['появляться','возникать']);
+  Word word = new Word('emerge',['появляться','возникать']);
+
 
   // Nothing here yet. All logic is in HelloDialog.
+  void addTranslateWord(String translateWord){
+    word.addTranslateWord(translateWord);
+  }
+
 }
 
 class Word {
@@ -47,6 +54,10 @@ class Word {
 
   void addTranslateWord(String translateWord){
     listOfTranslates.add(translateWord);
+    print(listOfTranslates);
   }
+
+
+
 
 }
